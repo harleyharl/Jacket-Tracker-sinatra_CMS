@@ -1,3 +1,16 @@
 source "https://rubygems.org"
 
-gem 'sinatra', '~> 1.4', '>= 1.4.7'
+gem 'activerecord', '4.2.5', :require => 'active_record'
+gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
+gem 'sqlite3'
+gem 'sinatra'
+gem 'thin'
+gem 'shotgun'
+gem 'tux'
+gem 'pry'
+gem 'rake'
+gem 'rspec'
+gem 'rack-test'
+gem 'sinatra-twitter-bootstrap', :require => 'sinatra/twitter-bootstrap'
+gem 'capybara'
+gem 'require_all'
