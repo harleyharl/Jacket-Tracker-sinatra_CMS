@@ -1,0 +1,22 @@
+<h1>Create a new jacket here</h1>
+<form method="POST" action="/jackets">
+  <h2>Jacket Type:</h2>
+  <%@jacket_types.each do |jacket_type|%>
+  <%binding.pry%>
+  <input type="checkbox" name="jacket[jacket_type]" value="<%=jacket_type%>"><%=jacket_type%></input>
+  <%end%>
+  <h2>Or create a new jacket type:</h2>
+  <input type="text" name="jacket[jacket_type]" value=""></input>
+
+
+  <h2>Where will you be keeping this jacket?</h2>
+  <%@locations.each do |location|%>
+  <input type="checkbox" name="jacket[location]" value="<%=location.id%>"><%=location.name%></input>
+  <%end%>
+
+  <h2>Or will you be storing this jacket in a new place?</h2>
+  <input type="text" name="jacket[location]" value=""></input>
+
+    <br>
+  <input type="submit" value="Enter New Jacket">
+  </form>
