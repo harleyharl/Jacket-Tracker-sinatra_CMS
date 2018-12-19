@@ -1,5 +1,8 @@
 class JacketsController < ApplicationController
+
   get '/jackets/index.erb' do
-    "Hello World"
+    binding.pry
+    @jackets = Jacket.all
   end
+
 end
