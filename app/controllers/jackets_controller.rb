@@ -20,20 +20,43 @@ class JacketsController < ApplicationController
   end
 
   post '/jackets' do
-    # binding.pry
+
     @jacket = Jacket.create
 
-    if !params[:jacket][:jacket_type].empty? #if theres something in the jacket type hash
+    #takes info from radio boxes
+    if params[:jacket][:jacket_type] && !params[:jacket][:jacket_type].empty? #if theres a box ticked
       @jacket.jacket_type = params[:jacket][:jacket_type] #set jacket type to that input
     end
+    #or overwrite jacket type with whats in the box
+    if !params[:jacket][:new_jacket_type].empty?
+      @jacket.jacket_type = params[:jacket][:new_jacket_type]
+    end
 
-    @jacket.location_id = params[:jacket][:location] #checkbox
-    @jacket.location_id = params[:jacket][:new_location] # Or create new location
-    # @jacket.brand = params[:jacket][:brand]
+    if !params[:jacket][:brand].empty?
+      @jacket.brand = Brand.find_or_create_by(name: params[:jacket][:brand])
+    end
+
+    #takes info from radio boxes
+    if !!params[:jacket][:location_id] #if a location box is ticked -
+      @jacket.location = Location.find_by(id: params[:jacket][:location_id]) #find the location by id and set the association
+    end
+    #or we overwrite with whats in text box
+    if !params[:jacket][:new_location].empty? #if the text box has content
+      @jacket.location = Location.create(name: params[:jacket][:new_location]) #overwrite jackets location
+    end
+
     @jacket.save
-    @jackets = Jacket.all
+
+    @jackets = Jacket.all #WHY DO I HAVE TO DO THIS HERE
+
     erb :'/jackets/index'
 
+  end
+
+
+  get '/jackets/:id' do
+    @jacket = Jacket.find_by(id: params[:id])
+    erb :'jackets/show'
   end
 
 end

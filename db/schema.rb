@@ -19,11 +19,13 @@ ActiveRecord::Schema.define(version: 4) do
 
   create_table "jackets", force: :cascade do |t|
     t.string  "jacket_type"
+    t.string  "brand_id"
     t.integer "location_id"
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "jacket_id"
   end
 
   create_table "users", force: :cascade do |t|

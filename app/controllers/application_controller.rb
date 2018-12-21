@@ -16,6 +16,8 @@ class ApplicationController < Sinatra::Base
     erb :"application/index"
   end
 
+
+
 # methods that allow us to add logic to our views:
   helpers do
     def logged_in?
