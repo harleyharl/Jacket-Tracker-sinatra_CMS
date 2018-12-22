@@ -1,7 +1,12 @@
 <h1>These are your jackets and where to find them!</h1>
-<ul>
+
 <%@jackets.each do |jacket|%>
-  <p><a href = '/jackets/<%=jacket.id%>'><%=jacket.jacket_type%> </a></p>
-  <p><%=jacket.location.name%></p>
+  <b><a href ='/jackets/<%=jacket.id%>'> <%=jacket.brand.name%> <%=jacket.jacket_type%> </a></b>
+  <br>
+  <i><a href ='/locations/<%=jacket.location.id%>'</a>(<%=jacket.location.name%>)</i>
+  <br>
+  <br>
   <%end%>
-<ul>
+
+<br>
+<a href='/jackets/new'>Add a new jacket</a>
