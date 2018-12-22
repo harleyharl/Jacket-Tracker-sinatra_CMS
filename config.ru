@@ -13,4 +13,5 @@ use Rack::MethodOverride
 
 use JacketsController
 use BrandsController
+use LocationsController
 run ApplicationController

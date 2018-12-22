@@ -38,14 +38,25 @@ class JacketsController < ApplicationController
 
     #takes info from radio boxes
     if !!params[:jacket][:location_id] #if a location box is ticked -
-      @jacket.location = Location.find_by(id: params[:jacket][:location_id]) #find the location by id and set the association
+      @location = Location.find_by(id: params[:jacket][:location_id])
+      @jacket.location = @location #find the location by id and set the association
+      @location.jackets << @jacket
     end
     #or we overwrite with whats in text box
+    # if !params[:jacket][:new_location].empty? #if the text box has content
+    #   @jacket.location = Location.create(name: params[:jacket][:new_location]) #overwrite jackets location
+    # end
+
     if !params[:jacket][:new_location].empty? #if the text box has content
-      @jacket.location = Location.create(name: params[:jacket][:new_location]) #overwrite jackets location
+      # binding.pry
+      @location = Location.create(name: params[:jacket][:new_location])
+      @jacket.location = @location #overwrite jackets location
+      @location.jackets << @jacket
     end
 
+
     @jacket.save
+    @location.save
 
     @jackets = Jacket.all #WHY DO I HAVE TO DO THIS HERE
 

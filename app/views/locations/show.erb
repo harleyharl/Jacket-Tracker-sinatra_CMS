@@ -1,0 +1,5 @@
+
+<h1><%=@location.name%></h1>
+<%@location.jackets.each do |jacket|%>
+<p><%=jacket.brand.name%> <%=jacket.jacket_type%></p>
+<%end%>
