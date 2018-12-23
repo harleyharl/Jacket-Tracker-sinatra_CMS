@@ -13,7 +13,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :"application/index"
+    "you are logged in as #{session[:email]}"
+    # erb :"application/index"
   end
 
 
