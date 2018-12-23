@@ -1,9 +1,10 @@
 <h1>These are your jackets and where to find them!</h1>
 
+
 <%@jackets.each do |jacket|%>
   <b><a href ='/jackets/<%=jacket.id%>'> <%=jacket.brand.name%> <%=jacket.jacket_type%> </a></b>
   <br>
-  <i><a href ='/locations/<%=jacket.location.id%>'</a>(<%=jacket.location.name%>)</i>
+  <i><a href ='/locations/<%=jacket.location_id%>'</a>(<%=Location.find_by(id: jacket.location_id).name%>)</i>
   <br>
   <br>
   <%end%>

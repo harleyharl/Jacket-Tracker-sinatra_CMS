@@ -23,21 +23,22 @@ class JacketsController < ApplicationController
 
     @jacket = Jacket.create
 
-    #takes info from radio boxes
+    #takes info from radio boxes for jacket type
     if params[:jacket][:jacket_type] && !params[:jacket][:jacket_type].empty? #if theres a box ticked
       @jacket.jacket_type = params[:jacket][:jacket_type] #set jacket type to that input
     end
-    #or overwrite jacket type with whats in the box
-    if !params[:jacket][:new_jacket_type].empty?
+    #or set jacket type with whats in the box
+    if params[:jacket][:new_jacket_type] && !params[:jacket][:new_jacket_type].empty?
       @jacket.jacket_type = params[:jacket][:new_jacket_type]
     end
 
-    if !params[:jacket][:brand].empty?
+    if params[:jacket][:brand] && !params[:jacket][:brand].empty?
       @jacket.brand = Brand.find_or_create_by(name: params[:jacket][:brand])
     end
 
-    #takes info from radio boxes
-    if !!params[:jacket][:location_id] #if a location box is ticked -
+    #takes info from location radio boxes
+    # binding.pry
+    if params[:jacket][:location_id] && !!params[:jacket][:location_id] #if a location box is ticked -
       @location = Location.find_by(id: params[:jacket][:location_id])
       @jacket.location = @location #find the location by id and set the association
       @location.jackets << @jacket
@@ -46,9 +47,8 @@ class JacketsController < ApplicationController
     # if !params[:jacket][:new_location].empty? #if the text box has content
     #   @jacket.location = Location.create(name: params[:jacket][:new_location]) #overwrite jackets location
     # end
-
-    if !params[:jacket][:new_location].empty? #if the text box has content
-      # binding.pry
+    # binding.pry
+    if params[:jacket][:new_location] && !params[:jacket][:new_location].empty? #if the text box has content
       @location = Location.create(name: params[:jacket][:new_location])
       @jacket.location = @location #overwrite jackets location
       @location.jackets << @jacket
