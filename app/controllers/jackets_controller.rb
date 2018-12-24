@@ -8,14 +8,16 @@ class JacketsController < ApplicationController
 
   get '/jackets/new' do
 
-    @locations = Location.all
-    @brands = Brand.all
-
-    @jacket_types = Jacket.all.collect do |jacket|
-      jacket.jacket_type
+    if !session[:email]
+      redirect "/login"
+    else
+      @locations = Location.all
+      @brands = Brand.all
+      @jacket_types = Jacket.all.collect do |jacket|
+        jacket.jacket_type
+      end
+      erb :'/jackets/new'
     end
-
-    erb :'/jackets/new'
 
   end
 
@@ -37,17 +39,12 @@ class JacketsController < ApplicationController
     end
 
     #takes info from location radio boxes
-    # binding.pry
     if params[:jacket][:location_id] && !!params[:jacket][:location_id] #if a location box is ticked -
       @location = Location.find_by(id: params[:jacket][:location_id])
       @jacket.location = @location #find the location by id and set the association
       @location.jackets << @jacket
     end
-    #or we overwrite with whats in text box
-    # if !params[:jacket][:new_location].empty? #if the text box has content
-    #   @jacket.location = Location.create(name: params[:jacket][:new_location]) #overwrite jackets location
-    # end
-    # binding.pry
+
     if params[:jacket][:new_location] && !params[:jacket][:new_location].empty? #if the text box has content
       @location = Location.create(name: params[:jacket][:new_location])
       @jacket.location = @location #overwrite jackets location
