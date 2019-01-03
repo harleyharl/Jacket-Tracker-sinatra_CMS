@@ -17,13 +17,6 @@ class ApplicationController < Sinatra::Base
     erb :"application/index"
   end
 
-#moved into users controller
-  # post '/users' do
-  #   @user = User.create(username: params[:username], password: params[:password])
-  #   session[:session_id] = @user.id
-  #   # binding.pry
-  #   redirect '/jackets'
-  # end
 
 # methods that allow us to add logic to our views:
   helpers do
@@ -32,7 +25,6 @@ class ApplicationController < Sinatra::Base
     end
 
     def login(username, password)
-      # binding.pry
       user = User.find_by(username: username)
       if user && user.authenticate(password)  #if the user exists, set local variable user
           session[:session_id] = user.id

@@ -16,11 +16,18 @@ class JacketsController < ApplicationController
     if !logged_in?
       redirect "/login"
     else
-      @locations = Location.all
+      @user = User.find_by_id(session[:user_id])
+
+      @locations = @user.jackets.collect do |jacket|
+        jacket.location
+      end
+
       @brands = Brand.all
-      @jacket_types = Jacket.all.collect do |jacket|
+
+      @jacket_types = @user.jackets.all.collect do |jacket|
         jacket.jacket_type
       end
+      
       erb :'/jackets/new'
     end
 

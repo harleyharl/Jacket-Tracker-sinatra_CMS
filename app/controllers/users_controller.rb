@@ -22,28 +22,39 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    # login(username, password)
+    erb :"users/login"
+  end
+
+  post "/login" do
+      user = User.find_by(username: params[:username])
+      if user && user.authenticate(params[:password])
+          session[:user_id] = user.id
+          redirect "/jackets"
+      else
+          redirect "/failure"
+      end
   end
 
   post '/users' do
-    # binding.pry
+
     if User.find_by(username: params[:username])
       redirect '/jackets'
     else
       @user = User.create(username: params[:username], password: params[:password])
       login(@user.username, @user.password)
       redirect '/jackets'
-  end
-    # session[:session_id] = @user.id
+    end
+
     if @user.save
       login(params[:username], params[:password])
       redirect '/jackets'
     else
       erb :"users/new"
     end
+
   end
 
-  get '/logout' do
+  post '/logout' do
     logout!
     redirect '/'
   end
