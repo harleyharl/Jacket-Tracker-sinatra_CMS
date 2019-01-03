@@ -4,3 +4,9 @@
 <br>
 <a href='/locations/<%=@jacket.location.id%>'>See what else is in this location</a>
 <p>See more <%=@jacket.brand.name%> <%=@jacket.jacket_type%>s</p>
+
+<p>Delete Jacket:</p>
+<form method="POST" action="/jackets/<%= jacket.id %>/delete">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="delete" id="Delete Jacket">
+</form>
