@@ -4,7 +4,7 @@ class JacketsController < ApplicationController
     if logged_in?
       @user = User.find_by_id(session[:user_id])
       # binding.pry
-      @jackets = @user.jackets #need to make this @user.jackets
+      @jackets = @user.jackets
       erb :'/jackets/index'
     else
       redirect "/login"
@@ -27,7 +27,7 @@ class JacketsController < ApplicationController
       @jacket_types = @user.jackets.all.collect do |jacket|
         jacket.jacket_type
       end
-      
+
       erb :'/jackets/new'
     end
 
@@ -79,8 +79,23 @@ class JacketsController < ApplicationController
 
 
   get '/jackets/:id' do
-    @jacket = Jacket.find_by(id: params[:id])
+    # binding.pry
+    @user = User.find_by_id(session[:user_id])
+    @jacket = Jacket.find_by_id(params[:id])
+    @more_users_jackets_of_same_type = @user.jackets.select do |jacket|
+      jacket.jacket_type == @jacket.jacket_type
+    end
     erb :'jackets/show'
+  end
+
+  delete '/jackets/:id/delete' do
+    @jacket = Jacket.find_by_id(params[:id])
+    if logged_in? && current_user.jackets.include?(@jacket)
+        @jacket.delete
+        redirect to '/jackets'
+    else
+      redirect to ("/login")
+    end
   end
 
 

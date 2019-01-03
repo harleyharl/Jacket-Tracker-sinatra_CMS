@@ -1,12 +1,18 @@
 <h1><%=@jacket.brand.name%> <%=@jacket.jacket_type%></h1>
 
-<a href='/jackets/<%=@jacket.jacket_type%>'>Check out more <%=@jacket.jacket_type%>s</a>
-<br>
-<a href='/locations/<%=@jacket.location.id%>'>See what else is in this location</a>
-<p>See more <%=@jacket.brand.name%> <%=@jacket.jacket_type%>s</p>
+<a href='/jackets/<%=@jacket.jacket_type%>'>More <%=@jacket.jacket_type%>s</a>
 
-<p>Delete Jacket:</p>
-<form method="POST" action="/jackets/<%= jacket.id %>/delete">
+<% @more_users_jackets_of_same_type.each do |jacket| %>
+  <br>
+  <%=@jacket.brand.name%> <%=@jacket.jacket_type%>
+<%end%>
+
+
+<br>
+<a href='/locations/<%=@jacket.location_id%>'>See other jackets in this location</a>
+<br>
+<form method="POST" action="/jackets/<%= @jacket.id %>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
-  <input type="submit" value="delete" id="Delete Jacket">
+  <br>
+  <input type="submit" value="Delete jacket" id="Delete Jacket">
 </form>
