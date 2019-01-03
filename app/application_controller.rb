@@ -13,4 +13,8 @@ class App < Sinatra::Base
     "Hello, world!"
   end
 
+  # get '/registrations/signup' do
+  #   erb :'application/signup'
+  # end
+
 end

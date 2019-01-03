@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 4) do
     t.string  "jacket_type"
     t.string  "brand_id"
     t.integer "location_id"
+    t.integer "user_id"
   end
 
   create_table "locations", force: :cascade do |t|

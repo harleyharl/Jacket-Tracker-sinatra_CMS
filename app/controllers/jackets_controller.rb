@@ -1,14 +1,19 @@
 class JacketsController < ApplicationController
 
   get '/jackets' do
-    # binding.pry
-    @jackets = Jacket.all
-    erb :'/jackets/index'
+    if logged_in?
+      @user = User.find_by_id(session[:user_id])
+      # binding.pry
+      @jackets = @user.jackets #need to make this @user.jackets
+      erb :'/jackets/index'
+    else
+      redirect "/login"
+    end
   end
 
   get '/jackets/new' do
 
-    if !session[:email]
+    if !logged_in?
       redirect "/login"
     else
       @locations = Location.all
@@ -23,6 +28,11 @@ class JacketsController < ApplicationController
 
   post '/jackets' do
 
+    if !logged_in?
+      redirect "/login"
+    else
+
+    @user = User.find_by_id(session[:user_id])
     @jacket = Jacket.create
 
     #takes info from radio boxes for jacket type
@@ -51,13 +61,12 @@ class JacketsController < ApplicationController
       @location.jackets << @jacket
     end
 
-
-    @jacket.save
+    @user.jackets << @jacket
+    @user.save
     @location.save
 
-    @jackets = Jacket.all #WHY DO I HAVE TO DO THIS HERE
-
     erb :'/jackets/index'
+    end
 
   end
 
@@ -66,5 +75,7 @@ class JacketsController < ApplicationController
     @jacket = Jacket.find_by(id: params[:id])
     erb :'jackets/show'
   end
+
+
 
 end

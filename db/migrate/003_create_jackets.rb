@@ -4,6 +4,7 @@ class CreateJackets < ActiveRecord::Migration
        j.string :jacket_type
        j.string :brand_id
        j.integer :location_id
+       j.integer :user_id
     end
   end
 end
