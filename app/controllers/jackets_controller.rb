@@ -1,6 +1,6 @@
 class JacketsController < ApplicationController
 
-  get '/jackets' do
+  get '/:user_slug/jackets' do
     if logged_in?
       @user = User.find_by_id(session[:user_id])
       @jackets = @user.jackets
@@ -15,11 +15,14 @@ class JacketsController < ApplicationController
     if !logged_in?
       redirect "/login"
     else
+
       @user = User.find_by_id(session[:user_id])
 
       @locations = @user.jackets.collect do |jacket|
         jacket.location
       end
+
+      @locations.compact!
 
       @brands = Brand.all
 
@@ -39,6 +42,7 @@ class JacketsController < ApplicationController
     else
 
     @user = User.find_by_id(session[:user_id])
+    user_slug = @user.slug
     @jacket = Jacket.create
 
     #takes info from radio boxes for jacket type
@@ -56,7 +60,7 @@ class JacketsController < ApplicationController
 
     #takes info from location radio boxes
     if params[:jacket][:location_id] && !!params[:jacket][:location_id] #if a location box is ticked -
-      @location = Location.find_by(id: params[:jacket][:location_id])
+      @location = Location.find_by_id(params[:jacket][:location_id])
       @jacket.location = @location #find the location by id and set the association
       @location.jackets << @jacket
     end
@@ -71,7 +75,7 @@ class JacketsController < ApplicationController
     @user.save
     @location.save
 
-    erb :'/jackets/index'
+    redirect "/#{user_slug}/jackets"
     end
 
   end

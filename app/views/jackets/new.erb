@@ -12,7 +12,9 @@
   <input type="text" name="jacket[brand]"></input>
 
   <h2>Where will you keep this jacket?</h2>
+
   <%@locations.each do |location|%>
+
   <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
   <%end%>
   <p>Other:</p>
