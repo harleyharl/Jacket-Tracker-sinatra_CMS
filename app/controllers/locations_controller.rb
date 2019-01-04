@@ -6,14 +6,14 @@ class LocationsController < ApplicationController
   end
 
 
-  get '/locations/:id' do
-    #i only want to see my users locations
-    # @user = User.find_by_id(session[:user_id])
-    # @user.jackets.each do |jacket|
-    #   jacket.location
-    # end
+  get ':user_slug/locations/:location_slug' do
+
+    @user = User.find_by_id(session[:user_id])
+    user_slug = @user.slug
+
     @location = Location.find_by(id: params[:id])
-    # binding.pry
+    location_slug = @location.slug
+  
     erb :'/locations/show'
   end
 

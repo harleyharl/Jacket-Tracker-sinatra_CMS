@@ -1,4 +1,10 @@
+require_relative '../models/concerns/slugifiable.rb'
+
 class JacketsController < ApplicationController
+
+  include Slugifiable #so we can use as instance method
+  extend Slugifiable #so we can use as class method for methods like Artist.find_by_slug
+
 
   get '/:user_slug/jackets' do
     if logged_in?
@@ -47,15 +53,15 @@ class JacketsController < ApplicationController
 
     #takes info from radio boxes for jacket type
     if params[:jacket][:jacket_type] && !params[:jacket][:jacket_type].empty? #if theres a box ticked
-      @jacket.jacket_type = params[:jacket][:jacket_type] #set jacket type to that input
+      @jacket.jacket_type = params[:jacket][:jacket_type].chomp #set jacket type to that input
     end
     #or set jacket type with whats in the box
     if params[:jacket][:new_jacket_type] && !params[:jacket][:new_jacket_type].empty?
-      @jacket.jacket_type = params[:jacket][:new_jacket_type]
+      @jacket.jacket_type = params[:jacket][:new_jacket_type].chomp
     end
 
     if params[:jacket][:brand] && !params[:jacket][:brand].empty?
-      @jacket.brand = Brand.find_or_create_by(name: params[:jacket][:brand])
+      @jacket.brand = Brand.find_or_create_by(name: params[:jacket][:brand].chomp)
     end
 
     #takes info from location radio boxes
@@ -66,7 +72,7 @@ class JacketsController < ApplicationController
     end
 
     if params[:jacket][:new_location] && !params[:jacket][:new_location].empty? #if the text box has content
-      @location = Location.create(name: params[:jacket][:new_location])
+      @location = Location.create(name: params[:jacket][:new_location].chomp)
       @jacket.location = @location #overwrite jackets location
       @location.jackets << @jacket
     end
@@ -81,21 +87,19 @@ class JacketsController < ApplicationController
   end
 
 
-  get '/jackets/:id' do
-    # binding.pry
-    @user = User.find_by_id(session[:user_id])
-    @jacket = Jacket.find_by_id(params[:id])
-    @more_users_jackets_of_same_type = @user.jackets.select do |jacket|
-      jacket.jacket_type == @jacket.jacket_type
-    end
+  get '/:user_slug/jackets/:jacket_slug' do
+
+    @user = User.find_by_slug(params[:user_slug])
+    @jacket = Jacket.find_by_slug(params[:jacket_slug])
     erb :'jackets/show'
+
   end
 
   delete '/jackets/:id/delete' do
     @jacket = Jacket.find_by_id(params[:id])
     if logged_in? && current_user.jackets.include?(@jacket)
         @jacket.delete
-        redirect to '/jackets'
+        redirect to ':user_slug/jackets'
     else
       redirect to ("/login")
     end

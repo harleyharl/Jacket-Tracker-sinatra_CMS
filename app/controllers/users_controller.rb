@@ -6,8 +6,7 @@ class UsersController < ApplicationController
   extend Slugifiable #so we can use as class method for methods like Artist.find_by_slug
 
   get '/signup' do
-    # binding.pry
-    # session.clear
+
     if logged_in? #logged in user can't even get to signup page
       @user = User.find_by_id(session[:user_id])
       user_slug = @user.slug
