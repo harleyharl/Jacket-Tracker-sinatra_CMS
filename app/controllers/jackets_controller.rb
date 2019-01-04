@@ -3,7 +3,6 @@ class JacketsController < ApplicationController
   get '/jackets' do
     if logged_in?
       @user = User.find_by_id(session[:user_id])
-      # binding.pry
       @jackets = @user.jackets
       erb :'/jackets/index'
     else

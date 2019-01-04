@@ -41,5 +41,9 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
 
+    def user_exists
+      !!User.find_by(username: params[:username])
+    end
+
   end
 end

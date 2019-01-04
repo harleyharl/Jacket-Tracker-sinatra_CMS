@@ -12,12 +12,13 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if !params[:username].empty? && !params[:password].empty? #checks to make sure both fields are not empty
+    # binding.pry
+    if !params[:username].empty? && !params[:password].empty? && !user_exists #checks to make sure both fields are not empty
       @user = User.create(username: params[:username], password: params[:password])
       session[:user_id] = @user.id
       redirect "/jackets"
     else
-      redirect "/signup"
+      redirect "/signup" #flash message
     end
   end
 
@@ -58,5 +59,6 @@ class UsersController < ApplicationController
     logout!
     redirect '/'
   end
+
 
 end
