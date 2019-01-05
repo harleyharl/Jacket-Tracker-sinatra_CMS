@@ -5,7 +5,8 @@
 
 
 <br>
-<a href='/locations/<%=@jacket.location_id%>'>See other jackets in this location</a>
+<%binding.pry%>
+<a href='/<%=@user.slug%>/locations/<%=@jacket.location.slug%>'>See other jackets in this location</a>
 <br>
 <form method="POST" action="/jackets/<%= @jacket.id %>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
