@@ -8,10 +8,10 @@
   <b><a href='/<%=@user.slug%>/jackets/<%=jacket.slug%>'> <%=jacket.brand.name%> <%=jacket.jacket_type%> </a></b>
   <br>
 
-  <i><a href='/<%=@user.slug%>/locations/<%=jacket.location.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')%>'> <%=Location.find_by_id(jacket.location_id).name%> </a></i>
+  <i><a href='/<%=@user.slug%>/locations/<%=jacket.location.slug%>'> <%=Location.find_by_id(jacket.location_id).name%> </a></i>
+  <%end%>
   <br>
   <br>
-<%end%>
 
 <br>
 <a href='/jackets/new'>Add a new jacket</a>
