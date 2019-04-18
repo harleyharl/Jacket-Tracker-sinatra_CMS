@@ -12,7 +12,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/harley
 ## License
 
 The files for this project are available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Jacket-Tracker-sinatra_CMS project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/harleyharl/Jacket-Tracker-sinatra_CMS/blob/master/CODE_OF_CONDUCT.md).
