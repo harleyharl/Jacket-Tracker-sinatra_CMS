@@ -1,0 +1,19 @@
+<h1><%=@jacket.brand.name%> <%=@jacket.jacket_type%></h1>
+
+<h2>Where did you put this jacket?</h2>
+
+<form method="POST" action="/jackets/<%=@jacket.slug%>">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+
+  <%@locations.each do |location|%>
+
+  <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
+  <%end%>
+  <p>Other:</p>
+  <input type="text" name="jacket[new_location]"></input>
+    <br>
+  <input type="submit" value="Update">
+  </form>
+  <form action='/logout' method=POST>
+  <input type="submit" value="log out">
+  </form>

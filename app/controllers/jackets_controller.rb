@@ -88,12 +88,64 @@ class JacketsController < ApplicationController
 
 
   get '/:user_slug/jackets/:jacket_slug' do
-
+    # binding.pry
     @user = User.find_by_slug(params[:user_slug])
     @jacket = Jacket.find_by_slug(params[:jacket_slug])
     erb :'jackets/show'
 
   end
+
+  get '/:user_slug/jackets/:jacket_slug/edit' do
+    if !logged_in?
+      redirect "/login"
+    else
+      @user = User.find_by_id(session[:user_id])
+
+      #this must be it... user's have locations through jackets
+
+      @locations = @user.jackets.collect do |jacket|
+        jacket.location
+      end
+
+      @locations.compact!
+
+      @jacket = Jacket.find_by_slug(params[:jacket_slug])
+
+      erb :'jackets/edit'
+    end
+  end
+
+  patch '/jackets/:jacket_slug' do  #updates a jacket
+
+    @user = User.find_by(id: session[:user_id])
+
+    @jacket = Jacket.find_by_slug(params[:jacket_slug])
+
+    # binding.pry
+    # takes info from location radio boxes
+    if params[:jacket][:location_id] && !!params[:jacket][:location_id] #if a location box is ticked -
+      # binding.pry
+      @location = Location.find_by_id(params[:jacket][:location_id])
+      @jacket.location = @location #find the location by id and set the association
+      @location.jackets << @jacket
+      @location.save
+      @jacket.save
+    end
+
+    if params[:jacket][:new_location] && !params[:jacket][:new_location].empty? #if the text box has content
+      @location = Location.create(name: params[:jacket][:new_location].chomp)
+      @jacket.location = @location #overwrite jackets location
+      @location.jackets << @jacket
+      @location.save
+      @jacket.save
+    end
+
+    # @jacket.save
+    #why isn't this saving...
+
+    erb :'jackets/show'
+  end
+
 
   delete '/jackets/:id/delete' do
     @jacket = Jacket.find_by_id(params[:id])

@@ -8,5 +8,6 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :jackets
-  
+  has_many :locations, through: :jackets
+
 end

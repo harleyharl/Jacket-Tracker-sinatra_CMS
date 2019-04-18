@@ -1,11 +1,16 @@
 <h1><%=@jacket.brand.name%> <%=@jacket.jacket_type%></h1>
 
 <br>
-<a href='/<%=@user.slug%>/locations/<%=@jacket.location_id%>'>See more jackets in the same location </a><br />
-<a href='/<%=@user.slug%>/jackets'> Back to your jackets </a>
+<a href='/<%=@user.slug%>/locations/<%=@jacket.location_id%>'>See more jackets in this location </a><br />
+<a href='/<%=@user.slug%>/jackets'> Back to your jackets </a><br />
+<a href='/<%=@user.slug%>/jackets/<%=@jacket.slug%>/edit'>Move this jacket</a><br />
 <br>
 <form method="POST" action="/jackets/<%= @jacket.id %>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <br>
   <input type="submit" value="Delete jacket" id="Delete Jacket">
+</form>
+
+<form action='/logout' method=POST>
+<input type="submit" value="log out">
 </form>
