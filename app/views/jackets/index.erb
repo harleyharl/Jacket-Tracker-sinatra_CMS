@@ -3,7 +3,7 @@
 <% if @user.jackets.count == 0 %>
   <h3>You haven't added any jackets yet. Click on "Add a new jacket" below to get started</h3>
 <% else %>
-  <h2>These are your jackets and where to find them:</h2>
+  <h2>This is where all of your jackets are</h2>
 <% end %>
 
 <%@user.jackets.each do |jacket|%>
