@@ -46,5 +46,11 @@ class ApplicationController < Sinatra::Base
       !!User.find_by(username: params[:username])
     end
 
+    def clear_errors
+      session[:fail_user_exists] = nil
+      session[:fail_something_missing] = nil
+      session[:fail] = nil
+    end
+
   end
 end
