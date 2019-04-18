@@ -6,14 +6,16 @@ class LocationsController < ApplicationController
   end
 
 
-  get '/:user_slug/locations/:location_slug' do
+  get '/:user_slug/locations/:location_id' do
 
     # binding.pry
     @user = User.find_by_id(session[:user_id])
     # user_slug = @user.slug
 
-    @location = Location.find_by_slug(params[:location_slug])
+    @location = Location.find_by(id: params[:location_id])
     # location_slug = @location.slug
+
+    @jackets = @location.jackets
 
     erb :'/locations/show'
   end

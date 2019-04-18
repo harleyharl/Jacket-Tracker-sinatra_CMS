@@ -1,12 +1,15 @@
-<h1>You are logged in as <%=@user.username%></h1>
+<h1>Hi <%=@user.username%></h1>
 
-<h1>These are your jackets and where to find them!</h1>
-
+<% if @user.jackets.count == 0 %>
+  <h3>You haven't added any jackets yet. Click on "Add a new jacket" below to get started</h3>
+<% else %>
+  <h2>These are your jackets and where to find them:</h2>
+<% end %>
 
 <%@user.jackets.each do |jacket|%>
   <b><a href='/<%=@user.slug%>/jackets/<%=jacket.slug%>'> <%=jacket.brand.name%> <%=jacket.jacket_type%> </a></b>
   <br>
-  <i><a href='/<%=@user.slug%>/locations/<%=jacket.location.slug%>'> <%=Location.find_by_id(jacket.location_id).name%> </a></i>
+  <i><a href='/<%=@user.slug%>/locations/<%=jacket.location_id%>'> <%=Location.find_by_id(jacket.location_id).name%> </a></i>
   <br>
   <br>
   <%end%>
