@@ -1,5 +1,8 @@
 <h1>Create a new jacket here</h1>
 <form method="POST" action="/jackets">
+  <% if session[:new_jacket_error] %>
+    <%= session[:new_jacket_error] %>
+  <% end %>
 
   <h2>Jacket Type:</h2>
   <p>choose or enter a new jacket type</p>
@@ -13,7 +16,7 @@
 
   <h2>Where will you keep this jacket?</h2>
 
-  <%@locations.each do |location|%>
+  <%@locations.uniq.each do |location|%>
 
   <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
   <%end%>
@@ -22,7 +25,9 @@
     <br>
   <input type="submit" value="Enter New Jacket">
   </form>
-  
+
   <form action='/logout' method=POST>
   <input type="submit" value="log out">
   </form>
+
+  <% clear_errors %>
