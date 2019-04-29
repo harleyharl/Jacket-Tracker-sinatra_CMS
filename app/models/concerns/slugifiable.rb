@@ -1,6 +1,7 @@
 module Slugifiable
 
     def slug
+      # binding.pry
       if self.class == User
         self.username.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       elsif self.class == Jacket
