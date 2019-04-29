@@ -5,7 +5,7 @@
 <form method="POST" action="/jackets/<%=@jacket.slug%>">
   <input id="hidden" type="hidden" name="_method" value="patch">
 
-  <%@locations.each do |location|%>
+  <%@locations.uniq.each do |location|%>
 
   <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
   <%end%>
