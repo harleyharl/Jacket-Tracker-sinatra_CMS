@@ -6,34 +6,34 @@
 <% elsif session[:fail_something_missing] %>
   <%= session[:fail_something_missing] %><br /><br />
   <form action="/signup" method="POST">
-  Enter a username
-  <input type="text" name="username">
-  Enter a password
-  <input type="password" name="password">
-  <br>
-  <br>
-  <input type="submit" value="Create account">
+    Enter a username
+    <input type="text" name="username">
+    Enter a password
+    <input type="password" name="password">
+    <br>
+    <br>
+    <input type="submit" value="Create account">
   </form>
 <% elsif session[:fail] %>
   <%= session[:fail] %><br />
   <form action="/signup" method="POST">
-  Enter a username
-  <input type="text" name="username">
-  Enter a password
-  <input type="password" name="password">
-  <br>
-  <br>
-  <input type="submit" value="Create account">
+    Enter a username
+    <input type="text" name="username">
+    Enter a password
+    <input type="password" name="password">
+    <br>
+    <br>
+    <input type="submit" value="Create account">
   </form>
 <% else %>
   <form action="/signup" method="POST">
-  Enter a username
-  <input type="text" name="username">
-  Enter a password
-  <input type="password" name="password">
-  <br>
-  <br>
-  <input type="submit" value="Create account">
+    Enter a username
+    <input type="text" name="username">
+    Enter a password
+    <input type="password" name="password">
+    <br>
+    <br>
+    <input type="submit" value="Create account">
   </form>
 <% end %>
 <% clear_errors %>
