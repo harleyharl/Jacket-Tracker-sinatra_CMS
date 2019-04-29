@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem 'hirb'
 gem 'activerecord', '4.2.7.1', :require => 'active_record'
 gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
 gem "rack", ">= 1.6.11"
