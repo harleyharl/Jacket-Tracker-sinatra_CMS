@@ -1,7 +1,6 @@
 module Slugifiable
 
-    def slug
-      # binding.pry
+    def slug #allows slugification of urls, is plugged in to each model
       if self.class == User
         self.username.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       elsif self.class == Jacket
@@ -13,7 +12,7 @@ module Slugifiable
       end
     end
 
-    def find_by_slug(slug)
+    def find_by_slug(slug) #allows finding by slug, is plugged into each model
       self.all.detect do |item|
         item.slug == slug
       end
