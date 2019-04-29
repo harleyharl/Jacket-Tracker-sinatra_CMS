@@ -4,6 +4,11 @@ class Jacket < ActiveRecord::Base
   extend Slugifiable #so we can use as class method for methods like Artist.find_by_slug
 
   belongs_to :brand
-  has_one :location
+  belongs_to :location
   belongs_to :user
+
+  def attributes_filled?
+    self.jacket_type && self.brand && self.location
+  end
+
 end
