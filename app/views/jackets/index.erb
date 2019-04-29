@@ -10,14 +10,13 @@
     <i><a href='/<%=@user.slug%>/locations/<%=jacket.location_id%>'> <%=Location.find_by_id(jacket.location_id).name%> </a></i>
     <br>
     <br>
-    <%end%>
+  <%end%>
     <br>
     <br>
 <% end %>
-
 <br>
 <a href='/jackets/new'>Add a new jacket</a>
 <br><br>
 <form action='/logout' method=POST>
-<input type="submit" value="log out">
+  <input type="submit" value="log out">
 </form>
