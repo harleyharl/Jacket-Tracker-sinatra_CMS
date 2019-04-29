@@ -4,6 +4,7 @@
 <a href='/<%=@user.slug%>/jackets/<%=@jacket.slug%>/edit'>Move this jacket</a><br />
 <a href='/<%=@user.slug%>/jackets'> Back to your jackets </a><br />
 <br>
+
 <form method="POST" action="/jackets/<%= @jacket.id %>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <br>
@@ -11,5 +12,5 @@
 </form>
 
 <form action='/logout' method=POST>
-<input type="submit" value="log out">
+  <input type="submit" value="log out">
 </form>

@@ -7,27 +7,27 @@
   <h2>Jacket Type:</h2>
   <p>choose or enter a new jacket type</p>
   <%@jacket_types.uniq.each do |jacket_type|%>
-  <input type="radio" name="jacket[jacket_type]" value="<%=jacket_type%>"><%=jacket_type%></input>
+    <input type="radio" name="jacket[jacket_type]" value="<%=jacket_type%>"><%=jacket_type%></input>
   <%end%>
+
   <input type="text" name="jacket[new_jacket_type]"></input>
 
   <h2> What brand is this jacket? </h2>
   <input type="text" name="jacket[brand]"></input>
 
   <h2>Where will you keep this jacket?</h2>
-
   <%@locations.uniq.each do |location|%>
-
-  <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
+    <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
   <%end%>
+
   <p>Other:</p>
   <input type="text" name="jacket[new_location]"></input>
     <br>
   <input type="submit" value="Enter New Jacket">
-  </form>
+</form>
 
-  <form action='/logout' method=POST>
+<form action='/logout' method=POST>
   <input type="submit" value="log out">
-  </form>
+</form>
 
-  <% clear_errors %>
+<% clear_errors %>
