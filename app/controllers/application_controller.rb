@@ -14,13 +14,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    # "you are logged in as #{session[:email]}"
     erb :"application/index"
   end
 
 
-# methods that allow us to add logic to our views:
   helpers do
+
     def logged_in?
       !!session[:user_id]
     end
@@ -39,7 +38,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def current_user
-      User.find(session[:user_id])
+      User.find(session[:user_id]) || User.find_by_slug(params[:user_slug])
     end
 
     def user_exists
@@ -50,6 +49,7 @@ class ApplicationController < Sinatra::Base
       session[:fail_user_exists] = nil
       session[:fail_something_missing] = nil
       session[:fail] = nil
+      session[:new_jacket_error] = nil
     end
 
   end
