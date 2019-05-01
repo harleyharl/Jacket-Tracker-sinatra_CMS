@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 5) do
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
@@ -25,8 +25,7 @@ ActiveRecord::Schema.define(version: 4) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string  "name"
-    t.integer "jacket_id"
+    t.string "name"
   end
 
   create_table "users", force: :cascade do |t|
