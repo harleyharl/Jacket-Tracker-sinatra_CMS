@@ -2,7 +2,7 @@
 
 <h2>Where did you put this jacket?</h2>
 
-<form method="POST" action="/jackets/<%=@jacket.slug%>">
+<form method="POST" action="/<%=@user.slug%>/jackets/<%=@jacket.slug%>">
   <input id="hidden" type="hidden" name="_method" value="patch">
   <%@locations.uniq.each do |location|%>
     <input type="radio" name="jacket[location_id]" value="<%=location.id%>"><%=location.name%></input>
