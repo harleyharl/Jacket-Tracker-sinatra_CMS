@@ -1,5 +1,5 @@
 <h1>Login</h1>
-
+<%= session[:no_account_error] %>
 <form action="/login" method="POST">
   <p>
     <label for="username">Username:</label>
@@ -9,3 +9,5 @@
   <p>
   <input type="submit" />
 </form>
+<p>If you don't have an account yet,<a href='/signup'> sign up here.</a></p>
+<% clear_errors %>
