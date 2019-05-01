@@ -4,7 +4,7 @@ module Slugifiable
       if self.class == User
         self.username.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       elsif self.class == Jacket
-        self.brand.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') + "-" + self.jacket_type.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+        self.brand.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') + "-" + self.jacket_type.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') + "-" + self.id.to_s
       elsif self.class == Location
         self.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       elsif self.class == Brand
