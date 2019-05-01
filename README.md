@@ -3,7 +3,7 @@ A simple MVC Sinatra application for keeping track of jackets
 
 ## Usage
 
-From root directory run 'shotgun' or 'rackup' to start the application. Walkthrough availabile here ->
+From root directory run 'shotgun' or 'rackup' to start the application.
 
 ## Contributing
 
