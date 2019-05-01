@@ -30,7 +30,7 @@ class JacketsController < ApplicationController
       redirect "/login"
     else
       @user = User.find_by(id: session[:user_id])
-      @jacket = Jacket.new #sets relationship
+      @jacket = Jacket.new
       #takes info for jacket type(text box overrides any radio buttons ticked)
       if params[:jacket][:new_jacket_type] && !params[:jacket][:new_jacket_type].empty? #if theres text input
         @jacket.jacket_type = params[:jacket][:new_jacket_type].chomp #set jacket type
@@ -46,16 +46,14 @@ class JacketsController < ApplicationController
         @location = Location.find_or_create_by(name: params[:jacket][:new_location].chomp)
         @jacket.location = @location
       elsif params[:jacket][:location_id] && !!params[:jacket][:location_id] #if a location box is ticked -
-        @location = Location.find_by_id(params[:jacket][:location_id])
+        @location = Location.find_by(id: params[:jacket][:location_id])
         @jacket.location = @location
       end
       # protects my database from bad data by redirecting if some value is nil
       if @jacket.attributes_filled? #see Jacket instance method
-        user_slug = @user.slug
-        @jacket.user = @user
-        @location.jackets << @jacket
+        @jacket.save
         @user.jackets << @jacket
-        redirect "/#{user_slug}/jackets"
+        redirect "/#{@user.slug}/jackets"
       else
         session[:new_jacket_error] = "Please try again. You'll need to enter a jacket type, brand and location in order to save a new jacket"
         redirect '/jackets/new'
@@ -66,7 +64,12 @@ class JacketsController < ApplicationController
   get '/:user_slug/jackets/:jacket_slug' do
     if current_user_logged_in?
       @user = current_user
-      @jacket = Jacket.find_by_slug(params[:jacket_slug])
+      if @user.jackets.include?(Jacket.find_by_slug(params[:jacket_slug]))
+        @jacket = Jacket.find_by_slug(params[:jacket_slug])
+      else
+        session[:wrong_url] = "Oops, you can't see somebody else's jackets!"
+        redirect '/'
+      end
       erb :'jackets/show'
     else
       session[:wrong_url] = "Oops, you can't see somebody else's jackets!"
@@ -80,8 +83,13 @@ class JacketsController < ApplicationController
       redirect "/login"
     else
       @user = current_user
+      if @user.jackets.include?(Jacket.find_by_slug(params[:jacket_slug]))
+        @jacket = Jacket.find_by_slug(params[:jacket_slug])
+      else
+        session[:wrong_url] = "Oops, you can't move somebody else's jackets!"
+        redirect '/'
+      end
       @locations = @user.locations
-      @jacket = @user.jackets.find_by_slug(params[:jacket_slug]) #see slugifiable
       erb :'jackets/edit'
     end
   end
@@ -90,7 +98,6 @@ class JacketsController < ApplicationController
     if !logged_in?
       redirect "/login"
     else
-      # binding.pry
       @user = current_user
       @jacket = @user.jackets.find_by_slug(params[:jacket_slug])
       # takes text input or on radio button input
