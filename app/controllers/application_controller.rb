@@ -22,7 +22,7 @@ class ApplicationController < Sinatra::Base
 
 
   helpers do
-    #looks up by url username slug
+
     def current_user
       User.find_by_slug(params[:user_slug])
     end
@@ -32,7 +32,11 @@ class ApplicationController < Sinatra::Base
     end
 
     def current_user_logged_in?
-      current_user.id == session[:user_id]
+      if current_user #looks up user with params hash
+        logged_in? && session[:user_id] == current_user.id #looks in User class for user with same ID stored in session hash
+      else
+        false
+      end
     end
 
     def login(username, password)
@@ -50,7 +54,7 @@ class ApplicationController < Sinatra::Base
 
 
     def user_exists
-      !!User.find_by(username: params[:username])
+      !!User.find_by(id: session[:user_id])
     end
 
     def clear_errors
@@ -59,6 +63,7 @@ class ApplicationController < Sinatra::Base
       session[:fail] = nil
       session[:new_jacket_error] = nil
       session[:wrong_url] = nil
+      session[:no_account_error]  = nil
     end
 
   end
