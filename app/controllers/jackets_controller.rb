@@ -1,24 +1,23 @@
 class JacketsController < ApplicationController
 
   get '/:user_slug/jackets' do
-    if logged_in?
+    if current_user_logged_in?
       @user = current_user
       @jackets = @user.jackets
       erb :'/jackets/index'
     else
+      session[:wrong_url] = "Oops, you can't see somebody else's jackets!"
       redirect "/login"
     end
   end
 
-  get '/jackets/new' do
-    if !logged_in?
+  get '/:user_slug/jackets/new' do
+    if !current_user_logged_in?
+      session[:wrong_url] = "Oops, you can't see somebody else's jackets!"
       redirect "/login"
     else
       @user = current_user
-      @locations = @user.jackets.collect do |jacket| #when a user has nothing in a single location it disappears from options
-        jacket.location
-      end
-      @locations.compact!
+      @locations = @user.locations
       @jacket_types = @user.jackets.all.collect do |jacket|
         jacket.jacket_type
       end
@@ -30,7 +29,7 @@ class JacketsController < ApplicationController
     if !logged_in?
       redirect "/login"
     else
-      @user = current_user
+      @user = User.find_by(id: session[:user_id])
       @jacket = Jacket.new #sets relationship
       #takes info for jacket type(text box overrides any radio buttons ticked)
       if params[:jacket][:new_jacket_type] && !params[:jacket][:new_jacket_type].empty? #if theres text input
@@ -65,33 +64,35 @@ class JacketsController < ApplicationController
   end
 
   get '/:user_slug/jackets/:jacket_slug' do
-    if logged_in?
+    if current_user_logged_in?
       @user = current_user
       @jacket = Jacket.find_by_slug(params[:jacket_slug])
       erb :'jackets/show'
     else
+      session[:wrong_url] = "Oops, you can't see somebody else's jackets!"
       redirect "/login"
     end
   end
 
   get '/:user_slug/jackets/:jacket_slug/edit' do
-    if !logged_in?
+    if !current_user_logged_in?
+      session[:wrong_url] = "Oops, you can't move somebody else's jackets!"
       redirect "/login"
     else
       @user = current_user
       @locations = @user.locations
-      @jacket = Jacket.find_by_slug(params[:jacket_slug]) #see slugifiable
+      @jacket = @user.jackets.find_by_slug(params[:jacket_slug]) #see slugifiable
       erb :'jackets/edit'
     end
   end
 
-  patch '/jackets/:jacket_slug' do  #updates a jacket
+  patch '/:user_slug/jackets/:jacket_slug' do  #updates a jacket
     if !logged_in?
       redirect "/login"
     else
+      # binding.pry
       @user = current_user
-      @jacket = Jacket.find_by_slug(params[:jacket_slug])
-      @jacket.user = @user
+      @jacket = @user.jackets.find_by_slug(params[:jacket_slug])
       # takes text input or on radio button input
       if params[:jacket][:new_location] && !params[:jacket][:new_location].empty?
         @location = Location.find_or_create_by(name: params[:jacket][:new_location].chomp)
@@ -107,9 +108,10 @@ class JacketsController < ApplicationController
 
   delete '/jackets/:id/delete' do
     @jacket = Jacket.find_by_id(params[:id])
-    if logged_in? && current_user.jackets.include?(@jacket)
+    @user = User.find_by(id: session[:user_id])
+    if logged_in? && @user.jackets.include?(@jacket)
       @jacket.delete
-      redirect to ':user_slug/jackets'
+      redirect to "#{@user.slug}/jackets"
     else
       redirect to ("/login")
     end
