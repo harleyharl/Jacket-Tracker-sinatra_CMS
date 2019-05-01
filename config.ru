@@ -11,6 +11,7 @@ end
 #rack middleware that lets us use PUT PATCH and DELETE
 use Rack::MethodOverride
 
+use WelcomeController
 use UsersController
 use JacketsController
 use BrandsController
