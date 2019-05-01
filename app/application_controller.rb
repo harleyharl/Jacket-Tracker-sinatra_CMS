@@ -1,5 +1,5 @@
-require 'sinatra'
-class App < Sinatra::Base
+require 'sinatra' #imports all functionality from sinatra gem including rack middleware (which connects to the database)
+class App < Sinatra::Base # any instance of our class App will have all the functionality of the Sinatra class
 
   cofigure do
     set :public_folder, 'public'
