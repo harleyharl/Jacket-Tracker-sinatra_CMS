@@ -13,14 +13,26 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :"application/index"
+    if logged_in?
+      redirect "/:user_slug/welcome"
+    else
+      erb :"/application/index"
+    end
   end
 
 
   helpers do
+    #looks up by url username slug
+    def current_user
+      User.find_by_slug(params[:user_slug])
+    end
 
     def logged_in?
       !!session[:user_id]
+    end
+
+    def current_user_logged_in?
+      current_user.id == session[:user_id]
     end
 
     def login(username, password)
@@ -36,9 +48,6 @@ class ApplicationController < Sinatra::Base
       session.clear
     end
 
-    def current_user
-      User.find(session[:user_id]) || User.find_by_slug(params[:user_slug])
-    end
 
     def user_exists
       !!User.find_by(username: params[:username])
@@ -49,6 +58,7 @@ class ApplicationController < Sinatra::Base
       session[:fail_something_missing] = nil
       session[:fail] = nil
       session[:new_jacket_error] = nil
+      session[:wrong_url] = nil
     end
 
   end
