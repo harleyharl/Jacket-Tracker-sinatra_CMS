@@ -1,0 +1,7 @@
+<h1>Welcome to Jacket tracker</h1>
+<%= session[:wrong_url] %>
+<p>
+  View your <b><a href='/<%=@user.slug%>/jackets'> jackets. </a></b>
+  </p>
+
+<% clear_errors %>
