@@ -4,6 +4,5 @@ class Location < ActiveRecord::Base
  extend Slugifiable #so we can use as class method for methods like Artist.find_by_slug
 
  has_many :jackets
- belongs_to :user
  
 end
