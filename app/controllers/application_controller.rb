@@ -31,7 +31,7 @@ class ApplicationController < Sinatra::Base
       !!session[:user_id]
     end
 
-    def current_user_logged_in?
+    def current_user_logged_in? #checks for valid user URL then checks if the logged in user owns that url
       if current_user #looks up user with params hash
         logged_in? && session[:user_id] == current_user.id #looks in User class for user with same ID stored in session hash
       else
