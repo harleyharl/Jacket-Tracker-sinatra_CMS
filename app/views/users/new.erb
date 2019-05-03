@@ -3,29 +3,8 @@
 <% if session[:fail_user_exists] %>
   <%= session[:fail_user_exists] %><br />
   <a href='/login'>Log in here </a>
-<% elsif session[:fail_something_missing] %>
-  <%= session[:fail_something_missing] %><br /><br />
-  <form action="/signup" method="POST">
-    Enter a username
-    <input type="text" name="username">
-    Enter a password
-    <input type="password" name="password">
-    <br>
-    <br>
-    <input type="submit" value="Create account">
-  </form>
-<% elsif session[:fail] %>
-  <%= session[:fail] %><br />
-  <form action="/signup" method="POST">
-    Enter a username
-    <input type="text" name="username">
-    Enter a password
-    <input type="password" name="password">
-    <br>
-    <br>
-    <input type="submit" value="Create account">
-  </form>
 <% else %>
+  <%= session[:fail] %>
   <form action="/signup" method="POST">
     Enter a username
     <input type="text" name="username">
