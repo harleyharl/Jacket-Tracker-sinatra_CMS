@@ -56,7 +56,7 @@ class JacketsController < ApplicationController
         redirect "/#{@user.slug}/jackets"
       else
         session[:new_jacket_error] = "Please try again. You'll need to enter a jacket type, brand and location in order to save a new jacket"
-        redirect '/jackets/new'
+        redirect "/#{@user.slug}/jackets/new"
       end
     end
   end
