@@ -13,7 +13,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    if current_user_logged_in?
+    if logged_in?
       redirect "/:user_slug/welcome"
     else
       erb :"/application/index"
@@ -24,6 +24,10 @@ class ApplicationController < Sinatra::Base
   helpers do
 
     def current_user
+      User.find_by(id: session[:user_id])
+    end
+
+    def user_by_params
       User.find_by_slug(params[:user_slug])
     end
 
@@ -31,9 +35,9 @@ class ApplicationController < Sinatra::Base
       !!session[:user_id]
     end
 
-    def current_user_logged_in? #checks for valid user URL then checks if the logged in user owns that url
-      if current_user #looks up user with params hash
-        logged_in? && session[:user_id] == current_user.id #looks in User class for user with same ID stored in session hash
+    def user_by_params_logged_in? #checks for valid user URL then checks if the logged in user owns that url
+      if user_by_params #looks up user with params hash
+        logged_in? && session[:user_id] == user_by_params.id #looks in User class for user with same ID stored in session hash
       else
         false
       end
@@ -54,16 +58,22 @@ class ApplicationController < Sinatra::Base
 
 
     def user_exists
-      !!User.find_by(id: session[:user_id])
+      !!User.find_by(username: params[:username])
     end
 
     def clear_errors
       session[:fail_user_exists] = nil
-      session[:fail_something_missing] = nil
       session[:fail] = nil
       session[:new_jacket_error] = nil
       session[:wrong_url] = nil
       session[:no_account_error]  = nil
+    end
+
+    def redirect_if_wrong_user
+      if !user_by_params_logged_in?
+        session[:wrong_url] = "Oops, you can't access somebody else's jackets!"
+        redirect '/'
+      end
     end
 
   end
