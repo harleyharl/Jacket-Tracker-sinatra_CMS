@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
 
   get '/:user_slug/locations/:location_id' do
-    if current_user_logged_in?
+    if user_by_params_logged_in?
       @user = current_user
       if @user.locations.include?(Location.find_by(id: params[:location_id]))
         @location = Location.find_by(id: params[:location_id])
