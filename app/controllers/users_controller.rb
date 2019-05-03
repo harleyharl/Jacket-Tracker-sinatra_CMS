@@ -11,11 +11,12 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
+    # binding.pry
     if user_exists #see ApplicationController methods
       session[:fail_user_exists] = "That user already exists"
       redirect '/signup'
     elsif params[:username].empty? || params[:password].empty?
-      session[:fail_something_missing] = "Looks like you didn't fill something in, please try again"
+      session[:fail] = "Looks like you didn't fill something in, please try again"
       redirect '/signup'
     elsif !params[:username].empty? && !params[:password].empty? && !user_exists #checks to make sure both fields are not empty and the user doesn't exist already
       @user = User.create(username: params[:username], password: params[:password])
